@@ -1,0 +1,1066 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="App educativa sobre la estructura y función del ADN para grado noveno.">
+<meta name="theme-color" content="#4930E8">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html,body{margin:0}body{font:14px/1.4 system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>ADN Explore</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@600;800&display=swap">
+<style>
+/* Layout: una sola columna tipo teléfono (máx. 460px) con barra superior, contenido con scroll y barra de pestañas inferior. */
+:root{
+  --bg:#F6F4FF; --surface:#FFFFFF; --surface-2:#EDE9FF; --ink:#1B1442; --ink-2:#5B5583; --line:#DCD6F6;
+  --backdrop:#E6E1FB;
+  --hero:#4930E8; --hero-ink:#FFFFFF; --hero-ink-2:#D9D3FF; --sky:#30A5E8;
+  --accent:#4930E8; --accent-ink:#FFFFFF; --pink:#FF7A93; --pink-soft:#FFE3EA;
+  --A:#E5484D; --T:#E9A90E; --C:#2F8FD8; --G:#1E9E6E;
+  --P:#7C5CF0; --S:#F59BC8; --S-ink:#7A1F4E;
+  --ok:#1E9E6E; --ok-soft:#DDF5EA; --bad:#D93848; --bad-soft:#FDE3E5; --warn:#B7790B; --warn-soft:#FDF1D6;
+  --shadow:0 1px 2px rgba(40,24,140,.06),0 8px 24px rgba(40,24,140,.08);
+  --nav-bg:#1A1340; --nav-ink:#B8B0EA; --nav-active:#FFFFFF; --nav-pill:#4930E8; --nav-line:rgba(255,255,255,.08);
+  --nav-shadow:0 -6px 18px rgba(26,19,64,.18);
+  --f-display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --f-body:"Atkinson Hyperlegible","Segoe UI",system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --r-lg:22px; --r-md:16px; --r-sm:11px;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#110C2C; --surface:#1A1442; --surface-2:#241C57; --ink:#F2EFFF; --ink-2:#ABA4D8; --line:#30286C;
+  --backdrop:#0A0720; --hero:#2E1FA6; --hero-ink:#FFFFFF; --hero-ink-2:#C9C1FF; --sky:#5BC0F5;
+  --accent:#8C79FF; --accent-ink:#120C33; --pink:#FF8FA5; --pink-soft:#3D1A33;
+  --A:#FF6B6F; --T:#F7C243; --C:#5AADF0; --G:#3CC991; --P:#A08BFF; --S:#F7A8D0; --S-ink:#FFD6EA;
+  --ok:#3CC991; --ok-soft:#123A2C; --bad:#FF6B78; --bad-soft:#41162A; --warn:#F7C243; --warn-soft:#3A2D10;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px rgba(0,0,0,.35);
+  --nav-bg:#07051A; --nav-ink:#B8B0EA; --nav-active:#FFFFFF; --nav-pill:#4930E8; --nav-line:rgba(255,255,255,.1);
+  --nav-shadow:0 -6px 18px rgba(0,0,0,.45); color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#110C2C; --surface:#1A1442; --surface-2:#241C57; --ink:#F2EFFF; --ink-2:#ABA4D8; --line:#30286C;
+  --backdrop:#0A0720; --hero:#2E1FA6; --hero-ink:#FFFFFF; --hero-ink-2:#C9C1FF; --sky:#5BC0F5;
+  --accent:#8C79FF; --accent-ink:#120C33; --pink:#FF8FA5; --pink-soft:#3D1A33;
+  --A:#FF6B6F; --T:#F7C243; --C:#5AADF0; --G:#3CC991; --P:#A08BFF; --S:#F7A8D0; --S-ink:#FFD6EA;
+  --ok:#3CC991; --ok-soft:#123A2C; --bad:#FF6B78; --bad-soft:#41162A; --warn:#F7C243; --warn-soft:#3A2D10;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px rgba(0,0,0,.35);
+  --nav-bg:#07051A; --nav-ink:#B8B0EA; --nav-active:#FFFFFF; --nav-pill:#4930E8; --nav-line:rgba(255,255,255,.1);
+  --nav-shadow:0 -6px 18px rgba(0,0,0,.45); color-scheme:dark }
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--backdrop);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.5;display:flex;justify-content:center;-webkit-tap-highlight-color:transparent}
+.app{width:100%;max-width:460px;height:100%;display:flex;flex-direction:column;background:var(--bg);position:relative;overflow:hidden}
+main{min-height:0}
+@media (min-width:640px){ body{padding-block:20px} .app{border-radius:30px;box-shadow:var(--shadow);border:1px solid var(--line)} }
+.gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+main{flex:1;overflow-y:auto;overscroll-behavior:contain;scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){ main{scroll-behavior:auto} *{animation-duration:.01ms!important;transition-duration:.01ms!important} }
+h1,h2,h3{font-family:var(--f-display);line-height:1.1;text-wrap:balance;margin:0}
+p{margin:0}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--sky);outline-offset:2px;border-radius:8px}
+a{color:var(--accent)}
+
+/* App bar */
+.appbar{display:flex;align-items:center;gap:10px;padding-block:12px;background:var(--bg);border-bottom:1px solid var(--line)}
+.appbar .ttl{flex:1;min-width:0}
+.appbar .eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);font-weight:700}
+.appbar h1{font-size:22px;font-weight:800}
+.btns{display:flex;gap:8px;flex:none}
+.iconbtn{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;cursor:pointer;flex:none}
+.iconbtn svg{width:20px;height:20px}
+.hero .iconbtn{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.25);color:var(--hero-ink)}
+
+/* Tab bar */
+.tabbar{flex:none;position:relative;z-index:40;display:grid;grid-template-columns:repeat(5,1fr);gap:4px;background:var(--nav-bg);border-top:1px solid var(--nav-line);padding-top:8px;padding-bottom:10px;box-shadow:var(--nav-shadow)}
+.tab{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0 4px;border:0;background:none;cursor:pointer;color:var(--nav-ink);font-size:11.5px;font-weight:700;border-radius:16px;min-width:0}
+.tab svg{width:23px;height:23px}
+.tab:hover{color:var(--nav-active)}
+.tab[aria-current="page"]{color:var(--nav-active)}
+.tab[aria-current="page"] .pill{background:var(--nav-pill)}
+.tab .pill{padding:4px 14px;border-radius:999px;display:grid;place-items:center;transition:background .2s}
+.tab:focus-visible{outline-color:var(--nav-active)}
+
+/* Hero */
+.hero{background:var(--hero);color:var(--hero-ink);padding-block:18px 0;position:relative;overflow:hidden}
+.hero-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.brand{font-size:clamp(34px,10.5vw,44px);font-weight:800;letter-spacing:-.02em}
+.brand span{color:var(--sky)}
+.hero .tag{font-family:var(--f-display);font-size:19px;font-weight:700;margin-top:6px;max-width:18ch}
+.chip-title{display:inline-block;margin-top:14px;background:var(--pink);color:#2A0B16;font-family:var(--f-display);font-weight:800;font-size:13px;letter-spacing:.06em;text-transform:uppercase;padding:6px 12px;border-radius:999px}
+.helix-hero{display:block;width:100%;height:150px;margin-top:6px}
+.hello{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px;display:flex;gap:14px;align-items:center;margin-top:-26px;position:relative;box-shadow:var(--shadow)}
+.hello .wave{font-size:30px;line-height:1}
+.hello h2{font-size:22px}
+.hello p{color:var(--ink-2);font-size:15px}
+
+/* Screens */
+.screen{padding-block:16px 32px;display:flex;flex-direction:column;gap:16px}
+.flash{animation:flash 1.6s ease-out}
+@keyframes flash{0%,30%{box-shadow:0 0 0 4px var(--sky)}100%{box-shadow:0 0 0 0 transparent}}
+.nextcard{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;background:var(--accent);color:var(--accent-ink);border:0;border-radius:var(--r-lg);padding:14px 16px;text-align:left;cursor:pointer;width:100%}
+.nextcard small{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;opacity:.85}
+.nextcard b{font-family:var(--f-display);font-size:18px;display:block;line-height:1.2}
+.nextcard .go{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.2);display:grid;place-items:center}
+.nextcard .go svg{width:20px;height:20px}
+.doclink{display:grid;grid-template-columns:48px 1fr 24px;gap:14px;align-items:center;width:100%;text-align:left;cursor:pointer;background:var(--surface);border:2px solid var(--accent);border-radius:var(--r-lg);padding:14px;transition:background .15s}
+.doclink:hover{background:var(--surface-2)}
+.doclink .ic{width:48px;height:48px;border-radius:14px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center}
+.doclink .ic svg{width:24px;height:24px}
+.doclink small{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--accent)}
+.doclink b{font-family:var(--f-display);font-size:18px;display:block}
+.doclink span.sub{font-size:14px;color:var(--ink-2)}
+.doclink .chev{color:var(--accent);width:24px;height:24px}
+.gobtn{display:inline-flex;align-items:center;gap:6px;border:0;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:13.5px;padding:7px 12px;border-radius:999px;cursor:pointer;white-space:nowrap}
+.gobtn svg{width:14px;height:14px}
+.gobtn.soft{background:var(--surface-2);color:var(--accent)}
+.opt.reveal{border-color:var(--ok);border-style:dashed;background:var(--ok-soft)}
+.opt.reveal .key{background:var(--ok);color:var(--surface)}
+.fb.hint{background:var(--warn-soft)}
+.fb.hint b{color:var(--warn)}
+.fb .retry{margin-top:10px}
+.video-embed{position:relative;aspect-ratio:16/9;max-width:100%;border-radius:var(--r-md);overflow:hidden;background:#000}
+.video-embed iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vnote{font-size:13px;color:var(--ink-2);text-align:center}
+.sec-label{font-size:12.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-2);font-weight:700;margin-top:6px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px}
+.lead{font-size:17px}
+.muted{color:var(--ink-2)}
+
+/* Module cards */
+.modules{display:flex;flex-direction:column;gap:12px}
+.module{display:grid;grid-template-columns:64px 1fr auto;gap:14px;align-items:center;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:14px;cursor:pointer;width:100%;transition:transform .15s,border-color .15s}
+.module:hover{border-color:var(--accent)}
+.module:active{transform:scale(.985)}
+.module .ic{width:64px;height:64px;border-radius:18px;display:grid;place-items:center}
+.module .ic svg{width:38px;height:38px}
+.module .ph{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--ink-2)}
+.module h3{font-size:20px;font-weight:800}
+.module .sub{font-size:14.5px;color:var(--ink-2)}
+.ringbox{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:52px}
+.ring{width:50px;height:50px}
+.ring text{font-family:var(--f-mono);font-size:11.5px;font-weight:800;fill:var(--ink)}
+.ringbox small{font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-2)}
+.module .prog{display:block;font-size:12.5px;font-weight:700;color:var(--ink-2);margin-top:4px;font-variant-numeric:tabular-nums}
+.m-exp .ic{background:var(--pink-soft);color:var(--pink)}
+.m-apr .ic{background:var(--surface-2);color:var(--accent)}
+.m-pra .ic{background:var(--ok-soft);color:var(--ok)}
+.m-eva .ic{background:var(--warn-soft);color:var(--warn)}
+.linkrow{display:flex;justify-content:center}
+.textbtn{border:0;background:none;color:var(--accent);font-weight:700;cursor:pointer;padding:8px 12px;text-decoration:underline;text-underline-offset:3px}
+
+/* Questions */
+.q{display:flex;flex-direction:column;gap:12px}
+.q .qnum{font-family:var(--f-mono);font-size:12px;font-weight:800;color:var(--accent);letter-spacing:.04em}
+.q h3{font-size:19px;font-weight:700;font-family:var(--f-body);line-height:1.35}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opts.tf{flex-direction:row}
+.opts.tf .opt{flex:1;justify-content:center}
+.opt{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:13px 14px;border-radius:var(--r-md);border:2px solid var(--line);background:var(--bg);cursor:pointer;font-weight:700;font-size:15.5px;transition:border-color .15s,background .15s}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt .key{flex:none;width:28px;height:28px;border-radius:9px;display:grid;place-items:center;font-family:var(--f-mono);font-size:13px;background:var(--surface-2);color:var(--accent)}
+.opt.right{border-color:var(--ok);background:var(--ok-soft)}
+.opt.right .key{background:var(--ok);color:var(--surface)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft);opacity:.85}
+.opt.wrong .key{background:var(--bad);color:var(--surface)}
+.opt:disabled{cursor:default}
+.fb{border-radius:var(--r-md);padding:12px 14px;font-size:15px;display:flex;gap:10px;align-items:flex-start}
+.fb b{display:block}
+.fb.ok{background:var(--ok-soft);color:var(--ink)}
+.fb.ok b{color:var(--ok)}
+.fb.no{background:var(--bad-soft)}
+.fb.no b{color:var(--bad)}
+.shake{animation:shake .35s}
+@keyframes shake{20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)}}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 18px;border-radius:999px;border:0;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:16px;cursor:pointer;width:100%}
+.btn.ghost{background:var(--surface-2);color:var(--accent)}
+.btn.danger{background:var(--bad-soft);color:var(--bad)}
+
+/* Nucleotide */
+.nuc-wrap{display:flex;flex-direction:column;gap:12px}
+.nuc-svg{width:100%;max-width:100%;height:auto;display:block}
+.part{cursor:pointer;transition:opacity .2s}
+.part:focus-visible{outline:none}
+.part:focus-visible .shape{stroke:var(--sky);stroke-width:4}
+.dim .part:not(.on){opacity:.35}
+.partchips{display:flex;flex-wrap:wrap;gap:8px}
+.pchip{border:2px solid var(--line);background:var(--bg);border-radius:999px;padding:7px 12px;font-weight:700;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.pchip i{width:12px;height:12px;border-radius:50%;display:inline-block}
+.pchip.on{border-color:var(--accent);background:var(--surface-2)}
+.pchip .seen{font-size:12px;color:var(--ok)}
+.info{background:var(--surface-2);border-radius:var(--r-md);padding:14px;min-height:118px}
+.info h4{margin:0 0 4px;font-family:var(--f-display);font-size:18px}
+
+/* Base pairs */
+.pairs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pair{border-radius:var(--r-md);background:var(--bg);border:1px solid var(--line);padding:12px;display:flex;flex-direction:column;gap:8px;align-items:center;text-align:center}
+.pair .bonds{display:flex;align-items:center;gap:6px}
+.btile{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-family:var(--f-mono);font-weight:800;font-size:18px;color:#fff}
+.bA{background:var(--A)} .bT{background:var(--T);color:#3A2800} .bC{background:var(--C)} .bG{background:var(--G)}
+.hb{display:flex;flex-direction:column;gap:4px}
+.hb span{display:block;width:22px;border-top:3px dotted var(--ink-2)}
+.pair small{color:var(--ink-2);font-size:13px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:14px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:12px;height:12px;border-radius:4px;display:inline-block}
+
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fact{background:var(--bg);border:1px solid var(--line);border-radius:var(--r-md);padding:12px}
+.fact .n{font-family:var(--f-display);font-weight:800;font-size:24px;color:var(--accent);font-variant-numeric:tabular-nums}
+.fact .l{font-size:13.5px;color:var(--ink-2);line-height:1.35}
+
+.helix-learn{display:block;width:100%;height:300px;touch-action:pan-y;cursor:grab;border-radius:var(--r-md);background:var(--surface-2)}
+.helix-learn:active{cursor:grabbing}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.row .grow{flex:1;min-width:0}
+
+.video{display:grid;grid-template-columns:96px 1fr;gap:14px;align-items:center;text-decoration:none;color:inherit;background:var(--hero);color:var(--hero-ink);border-radius:var(--r-lg);padding:14px}
+.video .thumb{aspect-ratio:1;max-width:100%;border-radius:16px;background:rgba(255,255,255,.14);display:grid;place-items:center}
+.video .thumb svg{width:40px;height:40px}
+.video b{font-family:var(--f-display);font-size:18px;display:block}
+.video small{color:var(--hero-ink-2)}
+
+.func{display:flex;flex-direction:column;gap:10px}
+.func div{display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start}
+.func .dot{width:34px;height:34px;border-radius:10px;background:var(--surface-2);color:var(--accent);display:grid;place-items:center}
+.func .dot svg{width:20px;height:20px}
+
+/* Game */
+.strand{display:flex;flex-direction:column;gap:6px}
+.srow{display:grid;grid-template-columns:22px repeat(8,1fr) 22px;gap:5px;align-items:center}
+.srow .end{font-family:var(--f-mono);font-size:11px;font-weight:800;color:var(--ink-2);text-align:center}
+.gt{aspect-ratio:1;max-width:100%;border-radius:9px;display:grid;place-items:center;font-family:var(--f-mono);font-weight:800;font-size:clamp(14px,4.5vw,19px);color:#fff}
+.gt.empty{background:var(--bg);border:2px dashed var(--line);color:var(--ink-2)}
+.gt.cur{border:2px solid var(--accent);background:var(--surface-2);animation:pulse 1.2s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 25%,transparent)}}
+.rungs{display:grid;grid-template-columns:22px repeat(8,1fr) 22px;gap:5px;height:12px}
+.rungs i{justify-self:center;width:3px;background:var(--line);border-radius:2px}
+.rungs i.done{background:var(--ink-2)}
+.keys{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.kbtn{border:0;border-radius:var(--r-md);padding:14px 0;font-family:var(--f-mono);font-weight:800;font-size:22px;color:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:center;line-height:1.1}
+.kbtn small{font-family:var(--f-body);font-size:11px;font-weight:700;opacity:.9}
+.kbtn:active{transform:scale(.96)}
+.kbtn.bT{color:#3A2800}
+.gstat{display:flex;gap:8px;flex-wrap:wrap}
+.badge{font-size:13px;font-weight:700;padding:5px 10px;border-radius:999px;background:var(--surface-2);color:var(--ink);font-variant-numeric:tabular-nums}
+.badge.ok{background:var(--ok-soft);color:var(--ok)}
+.badge.no{background:var(--bad-soft);color:var(--bad)}
+.badge.warn{background:var(--warn-soft);color:var(--warn)}
+
+/* Evaluation */
+.score{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}
+.score .big{width:104px;height:104px}
+.score .big text{font-family:var(--f-display);font-weight:800;fill:var(--ink)}
+.breakdown{display:flex;flex-direction:column;gap:12px;border-top:1px solid var(--line);padding-top:14px}
+.bd{display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:baseline}
+.bd span{font-size:15px}
+.bd b{font-family:var(--f-display);font-size:17px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.bd .bar{grid-column:1/-1}
+.bd small{grid-column:1/-1;font-size:13px;color:var(--ink-2)}
+.explain{font-size:13.5px;color:var(--ink-2);background:var(--surface-2);border-radius:var(--r-md);padding:10px 12px}
+.lvl{display:inline-block;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;margin-left:6px;vertical-align:middle}
+.lvl.hi{background:var(--ok-soft);color:var(--ok)} .lvl.mid{background:var(--warn-soft);color:var(--warn)} .lvl.lo{background:var(--bad-soft);color:var(--bad)}
+.phase{display:grid;grid-template-columns:1fr auto;gap:6px 12px;align-items:center;padding-block:12px;border-top:1px solid var(--line)}
+.phase:first-child{border-top:0;padding-top:0}
+.phase h3{font-size:17px}
+.phase .row{gap:8px}
+.bar{grid-column:1/-1;height:8px;border-radius:999px;background:var(--surface-2);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:999px;transition:width .5s}
+.phase .meta{grid-column:1/-1;font-size:13.5px;color:var(--ink-2)}
+.notes{display:flex;flex-direction:column;gap:8px;margin:0;padding:0;list-style:none}
+.notes li{display:grid;grid-template-columns:24px 1fr auto;gap:10px;font-size:15px;align-items:start}
+.notes .mk{width:24px;height:24px;border-radius:8px;display:grid;place-items:center;font-weight:800;font-size:13px}
+.notes .good .mk{background:var(--ok-soft);color:var(--ok)}
+.notes .todo .mk{background:var(--warn-soft);color:var(--warn)}
+
+/* About */
+.about dl{margin:0;display:flex;flex-direction:column;gap:14px}
+.about dt{font-size:12.5px;letter-spacing:.09em;text-transform:uppercase;font-weight:700;color:var(--accent)}
+.about dd{margin:2px 0 0}
+
+#confetti{position:absolute;inset:0;pointer-events:none;z-index:50}
+.toast{position:absolute;left:50%;bottom:96px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:999px;font-weight:700;font-size:14px;opacity:0;transition:.25s;pointer-events:none;z-index:60;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+
+</head>
+<body>
+<div class="app" id="app">
+  <main id="main">
+
+    <!-- INICIO -->
+    <section data-screen="inicio" aria-label="Inicio">
+      <div class="hero">
+        <div class="gut">
+          <div class="hero-top">
+            <div>
+              <h1 class="brand">ADN <span>Explore</span></h1>
+              <p class="tag">Explora la molécula que hace posible la vida</p>
+              <span class="chip-title">Estructura y función del ADN</span>
+            </div>
+            <div class="btns"><button class="iconbtn thmbtn" type="button" aria-label="Cambiar entre tema claro y oscuro"></button><button class="iconbtn sndbtn" type="button" aria-label="Activar o silenciar sonidos"></button></div>
+          </div>
+        </div>
+        <canvas class="helix-hero" id="helixHero" aria-hidden="true"></canvas>
+      </div>
+      <div class="screen gut" style="padding-top:0">
+        <div class="hello">
+          <div><h2>¡Hola!</h2><p>Hoy aprenderemos sobre la estructura y función del ADN.</p></div>
+        </div>
+        <button class="nextcard" type="button" id="nextHome"></button>
+        <p class="sec-label">Tu recorrido</p>
+        <div class="modules">
+          <button class="module m-exp" type="button" data-go="exploracion">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.6-3 4.4"/><path d="M12 17.6h.01"/></svg></span>
+            <span><span class="ph">Fase 1 · Exploración</span><h3>¿Qué sabes del ADN?</h3><span class="sub">Activa tus ideas previas</span></span>
+            <svg class="ring" viewBox="0 0 50 50" data-ring="exploracion" role="img"></svg>
+          </button>
+          <button class="module m-apr" type="button" data-go="aprendizaje">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M7 3c0 6 10 6 10 12s-10 6-10 6"/><path d="M17 3c0 6-10 6-10 12s10 6 10 6"/><path d="M8.5 6h7M10 9.5h4M10 14.5h4M8.5 18h7"/></svg></span>
+            <span><span class="ph">Fase 2 · Aprendizaje</span><h3>Conoce la molécula</h3><span class="sub">Nucleótidos, bases y doble hélice</span></span>
+            <svg class="ring" viewBox="0 0 50 50" data-ring="aprendizaje" role="img"></svg>
+          </button>
+          <button class="module m-pra" type="button" data-go="practica">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h4a2 2 0 1 1 4 0h4v4a2 2 0 1 1 0 4v4h-4a2 2 0 1 0-4 0H4v-4a2 2 0 1 0 0-4z"/></svg></span>
+            <span><span class="ph">Fase 3 · Práctica</span><h3>Pon a prueba lo aprendido</h3><span class="sub">Arma cadenas y responde</span></span>
+            <svg class="ring" viewBox="0 0 50 50" data-ring="practica" role="img"></svg>
+          </button>
+          <button class="module m-eva" type="button" data-go="evaluacion">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span>
+            <span><span class="ph">Seguimiento</span><h3>Mi evaluación</h3><span class="sub">Avances y dificultades en las tres fases</span><span class="prog" data-prog="total"></span></span>
+            <span class="ringbox"><svg class="ring" viewBox="0 0 50 50" data-ring="total" role="img"></svg><small>Aciertos</small></span>
+          </button>
+        </div>
+        <p class="sec-label">Para el docente</p>
+        <button class="doclink" type="button" data-go="proyecto">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h6M9 18h3"/></svg></span>
+          <span><small>Ficha del proyecto</small><b>Sobre ADN Explore</b><span class="sub">Público, contexto, problema y resultados de aprendizaje</span></span>
+          <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- EXPLORACIÓN -->
+    <section data-screen="exploracion" aria-label="Exploración" hidden>
+      <div class="appbar gut">
+        <button class="iconbtn" type="button" data-go="inicio" aria-label="Volver al inicio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <div class="ttl"><div class="eyebrow">Fase 1 · Exploración</div><h1>¿Qué sabes del ADN?</h1></div>
+        <div class="btns"><button class="iconbtn thmbtn" type="button" aria-label="Cambiar entre tema claro y oscuro"></button><button class="iconbtn sndbtn" type="button" aria-label="Activar o silenciar sonidos"></button></div>
+      </div>
+      <div class="screen gut">
+        <p class="lead">Antes de empezar, responde con lo que ya sabes. No pasa nada si te equivocas: aquí se trata de descubrir tus ideas.</p>
+        <div class="card" data-q="exp1" id="card-exp1"></div>
+        <div class="card" data-q="exp2" id="card-exp2"></div>
+        <div class="card" data-q="exp3" id="card-exp3"></div>
+        <button class="btn" type="button" data-go="aprendizaje">Continuar a Aprendizaje</button>
+      </div>
+    </section>
+
+    <!-- APRENDIZAJE -->
+    <section data-screen="aprendizaje" aria-label="Aprendizaje" hidden>
+      <div class="appbar gut">
+        <button class="iconbtn" type="button" data-go="inicio" aria-label="Volver al inicio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <div class="ttl"><div class="eyebrow">Fase 2 · Aprendizaje</div><h1>Conoce la molécula</h1></div>
+        <div class="btns"><button class="iconbtn thmbtn" type="button" aria-label="Cambiar entre tema claro y oscuro"></button><button class="iconbtn sndbtn" type="button" aria-label="Activar o silenciar sonidos"></button></div>
+      </div>
+      <div class="screen gut">
+        <div class="card">
+          <p class="sec-label" style="margin-top:0">1 · ¿Qué es el ADN?</p>
+          <p class="lead" style="margin-top:6px">El <b>ADN</b> (ácido desoxirribonucleico) es la molécula que guarda las instrucciones para formar y hacer funcionar a todos los seres vivos, y que se hereda de padres a hijos.</p>
+          <div class="func" style="margin-top:14px">
+            <div><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></span><p><b>Almacena información.</b> El orden de sus bases forma los genes, que indican cómo fabricar proteínas.</p></div>
+            <div><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="10" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2h-6"/></svg></span><p><b>Se copia.</b> Antes de que una célula se divida, el ADN se duplica (replicación).</p></div>
+            <div><span class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><path d="M10.5 8.6 7.5 15.4M13.5 8.6l3 6.8"/></svg></span><p><b>Transmite la herencia.</b> Pasa de una generación a la siguiente.</p></div>
+          </div>
+        </div>
+
+        <div class="card nuc-wrap" id="sec-nuc">
+          <p class="sec-label" style="margin-top:0">2 · El nucleótido, la pieza básica</p>
+          <p class="muted">Toca cada parte para descubrir qué es. El ADN es una cadena muy larga de nucleótidos.</p>
+          <svg class="nuc-svg" id="nuc" viewBox="0 0 340 190" role="group" aria-label="Modelo de un nucleótido">
+            <line x1="78" y1="70" x2="128" y2="96" stroke="var(--ink-2)" stroke-width="4" stroke-linecap="round"/>
+            <line x1="200" y1="104" x2="236" y2="104" stroke="var(--ink-2)" stroke-width="4" stroke-linecap="round"/>
+            <g class="part" data-part="fosfato" tabindex="0" role="button" aria-label="Grupo fosfato">
+              <circle class="shape" cx="58" cy="60" r="36" fill="var(--P)" stroke="var(--surface)" stroke-width="3"/>
+              <text x="58" y="68" text-anchor="middle" font-family="var(--f-mono)" font-weight="800" font-size="24" fill="#FFFFFF">P</text>
+              <text x="58" y="122" text-anchor="middle" font-family="var(--f-body)" font-weight="700" font-size="13" fill="var(--ink)">Fosfato</text>
+            </g>
+            <g class="part" data-part="azucar" tabindex="0" role="button" aria-label="Desoxirribosa">
+              <polygon class="shape" points="165,62 205,90 190,138 140,138 125,90" fill="var(--S)" stroke="var(--surface)" stroke-width="3"/>
+              <text x="165" y="110" text-anchor="middle" font-family="var(--f-mono)" font-weight="800" font-size="16" fill="var(--S-ink)">C₅</text>
+              <text x="165" y="160" text-anchor="middle" font-family="var(--f-body)" font-weight="700" font-size="13" fill="var(--ink)">Desoxirribosa</text>
+            </g>
+            <g class="part" data-part="base" tabindex="0" role="button" aria-label="Base nitrogenada">
+              <rect class="shape" x="236" y="72" width="88" height="64" rx="14" fill="var(--A)" stroke="var(--surface)" stroke-width="3"/>
+              <text x="280" y="114" text-anchor="middle" font-family="var(--f-mono)" font-weight="800" font-size="26" fill="#FFFFFF" id="nucBaseLetter">A</text>
+              <text x="280" y="160" text-anchor="middle" font-family="var(--f-body)" font-weight="700" font-size="13" fill="var(--ink)">Base nitrogenada</text>
+            </g>
+          </svg>
+          <div class="partchips">
+            <button class="pchip" type="button" data-part="fosfato"><i style="background:var(--P)"></i>Grupo fosfato<span class="seen"></span></button>
+            <button class="pchip" type="button" data-part="azucar"><i style="background:var(--S)"></i>Desoxirribosa<span class="seen"></span></button>
+            <button class="pchip" type="button" data-part="base"><i style="background:var(--A)"></i>Base nitrogenada<span class="seen"></span></button>
+          </div>
+          <div class="info" id="nucInfo" aria-live="polite">
+            <h4>Toca una parte</h4>
+            <p class="muted">Cada nucleótido tiene tres componentes. Descúbrelos todos para completar esta sección.</p>
+          </div>
+        </div>
+
+        <div class="card" style="display:flex;flex-direction:column;gap:12px">
+          <p class="sec-label" style="margin-top:0" id="sec-pares">3 · Las bases se emparejan</p>
+          <p>Las bases de una cadena se unen con las de la otra mediante <b>puentes de hidrógeno</b>, y siempre de la misma forma:</p>
+          <div class="pairs">
+            <div class="pair"><div class="bonds"><span class="btile bA">A</span><span class="hb"><span></span><span></span></span><span class="btile bT">T</span></div><b>Adenina – Timina</b><small>2 puentes de hidrógeno</small></div>
+            <div class="pair"><div class="bonds"><span class="btile bC">C</span><span class="hb"><span></span><span></span><span></span></span><span class="btile bG">G</span></div><b>Citosina – Guanina</b><small>3 puentes de hidrógeno</small></div>
+          </div>
+          <p class="muted" style="font-size:15px">Por eso, si conoces una cadena puedes deducir la otra: se llaman <b>cadenas complementarias</b>. El uracilo (U) no está en el ADN; aparece en el ARN.</p>
+        </div>
+
+        <div class="card" style="display:flex;flex-direction:column;gap:12px">
+          <p class="sec-label" style="margin-top:0">4 · La doble hélice</p>
+          <p>Dos cadenas de nucleótidos se enrollan como una escalera de caracol. Los lados son fosfato y azúcar; los peldaños son pares de bases.</p>
+          <canvas class="helix-learn" id="helixLearn" aria-label="Doble hélice animada. Arrastra para girarla."></canvas>
+          <div class="row">
+            <div class="legend grow">
+              <span><i style="background:var(--A)"></i>A</span><span><i style="background:var(--T)"></i>T</span><span><i style="background:var(--C)"></i>C</span><span><i style="background:var(--G)"></i>G</span><span><i style="background:var(--P);border-radius:50%"></i>Fosfato-azúcar</span>
+            </div>
+            <button class="pchip" type="button" id="spinBtn">Pausar giro</button>
+          </div>
+          <div class="facts">
+            <div class="fact"><div class="n">1953</div><div class="l">Watson y Crick proponen el modelo, con datos de rayos X de Rosalind Franklin</div></div>
+            <div class="fact"><div class="n">~10</div><div class="l">pares de bases por cada vuelta de la hélice</div></div>
+            <div class="fact"><div class="n">2 nm</div><div class="l">de diámetro: miles de veces más delgada que un cabello</div></div>
+            <div class="fact"><div class="n">3.000 M</div><div class="l">de pares de bases, aproximadamente, en el ADN de una célula humana</div></div>
+          </div>
+        </div>
+
+        <div class="card" id="sec-video" style="display:flex;flex-direction:column;gap:12px">
+          <p class="sec-label" style="margin-top:0">5 · Video de apoyo</p>
+          <div id="videoBox"></div>
+        </div>
+
+        <div class="card" data-q="apr1" id="card-apr1"></div>
+        <button class="btn" type="button" data-go="practica">Continuar a Práctica</button>
+      </div>
+    </section>
+
+    <!-- PRÁCTICA -->
+    <section data-screen="practica" aria-label="Práctica" hidden>
+      <div class="appbar gut">
+        <button class="iconbtn" type="button" data-go="inicio" aria-label="Volver al inicio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <div class="ttl"><div class="eyebrow">Fase 3 · Práctica</div><h1>Pon a prueba lo aprendido</h1></div>
+        <div class="btns"><button class="iconbtn thmbtn" type="button" aria-label="Cambiar entre tema claro y oscuro"></button><button class="iconbtn sndbtn" type="button" aria-label="Activar o silenciar sonidos"></button></div>
+      </div>
+      <div class="screen gut">
+        <div class="card" style="display:flex;flex-direction:column;gap:14px" id="sec-game">
+          <div class="row"><p class="sec-label grow" style="margin:0">Reto · Completa la cadena</p><span class="badge" id="gRound">Cadena 1 de 3</span></div>
+          <p class="muted" style="font-size:15px">Escribe la cadena complementaria tocando la base que se une a la que está arriba.</p>
+          <div class="strand" id="strand"></div>
+          <div class="keys" id="keys">
+            <button class="kbtn bA" type="button" data-b="A">A<small>Adenina</small></button>
+            <button class="kbtn bT" type="button" data-b="T">T<small>Timina</small></button>
+            <button class="kbtn bC" type="button" data-b="C">C<small>Citosina</small></button>
+            <button class="kbtn bG" type="button" data-b="G">G<small>Guanina</small></button>
+          </div>
+          <div class="gstat"><span class="badge ok" id="gOk">0 aciertos</span><span class="badge no" id="gBad">0 errores</span></div>
+          <div id="gDone" hidden></div>
+        </div>
+        <div class="card" data-q="pra1" id="card-pra1"></div>
+        <button class="btn" type="button" data-go="evaluacion">Ver mi evaluación</button>
+      </div>
+    </section>
+
+    <!-- EVALUACIÓN -->
+    <section data-screen="evaluacion" aria-label="Evaluación" hidden>
+      <div class="appbar gut">
+        <button class="iconbtn" type="button" data-go="inicio" aria-label="Volver al inicio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <div class="ttl"><div class="eyebrow">Seguimiento</div><h1>Evaluación</h1></div>
+        <div class="btns"><button class="iconbtn thmbtn" type="button" aria-label="Cambiar entre tema claro y oscuro"></button><button class="iconbtn sndbtn" type="button" aria-label="Activar o silenciar sonidos"></button></div>
+      </div>
+      <div class="screen gut">
+        <p class="muted">Evaluación formativa, continua y práctica: muestra tus avances y las dificultades durante las tres fases. Cada pendiente tiene un botón que te lleva directo a resolverlo.</p>
+        <div class="card" style="display:flex;flex-direction:column;gap:16px">
+          <div class="score">
+            <svg class="big" viewBox="0 0 104 104" id="bigRing" role="img"></svg>
+            <div><span class="sec-label" style="margin:0">Tu desempeño</span><h2 style="font-size:24px;margin-top:2px" id="scoreTitle">Sin datos aún</h2><p class="muted" id="scoreSub">Responde la primera actividad para ver tu desempeño.</p></div>
+          </div>
+          <div class="breakdown" id="scoreDetail"></div>
+          <p class="explain">El <b>progreso</b> dice cuántas actividades hiciste. El <b>desempeño</b> dice qué tan bien te fue: es el promedio entre las preguntas que acertaste al primer intento y tu precisión en el reto de cadenas.</p>
+        </div>
+        <button class="nextcard" type="button" id="nextEval"></button>
+        <div class="card" id="phaseList"></div>
+        <div class="card">
+          <p class="sec-label" style="margin-top:0">Qué vas logrando</p>
+          <ul class="notes" id="notes" style="margin-top:10px"></ul>
+        </div>
+        <button class="btn danger" type="button" id="resetBtn">Reiniciar mi progreso</button>
+      </div>
+    </section>
+
+    <!-- PROYECTO -->
+    <section data-screen="proyecto" aria-label="Sobre el proyecto" hidden>
+      <div class="appbar gut">
+        <button class="iconbtn" type="button" data-go="inicio" aria-label="Volver al inicio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+        <div class="ttl"><div class="eyebrow">Para el docente</div><h1>Ficha del proyecto</h1></div>
+        <div class="btns"><button class="iconbtn thmbtn" type="button" aria-label="Cambiar entre tema claro y oscuro"></button></div>
+      </div>
+      <div class="screen gut about">
+        <div class="card">
+          <dl>
+            <div><dt>Público</dt><dd>Estudiantes de grado noveno de básica secundaria, entre los 14 y 15 años.</dd></div>
+            <div><dt>Contexto</dt><dd>Colegio Ciudad Córdoba, Cali (Valle del Cauca), área de Ciencias Naturales. La aplicación se usa como apoyo a las clases presenciales o virtuales, mediante el uso de celulares.</dd></div>
+            <div><dt>Problema de aprendizaje</dt><dd>Los estudiantes presentan dificultades para comprender la estructura del ADN, identificar sus componentes y explicar cómo se organiza la información genética. Por eso se propone una aplicación móvil interactiva que permita explorar modelos del ADN, observar sus componentes y resolver desafíos que relacionen la estructura de la molécula con la información genética.</dd></div>
+            <div><dt>Resultado de aprendizaje</dt><dd>Los estudiantes identificarán los componentes del ADN, reconocerán su estructura de doble hélice y explicarán cómo la secuencia de sus bases nitrogenadas almacena la información genética, mediante actividades interactivas y ejercicios de aplicación.</dd></div>
+            <div><dt>Evidencia</dt><dd>Identifica correctamente los nucleótidos y sus componentes: desoxirribosa, grupo fosfato y base nitrogenada.</dd></div>
+            <div><dt>Evaluación</dt><dd>Formativa, continua y práctica, para identificar los avances y las dificultades durante las tres fases: Exploración, Aprendizaje y Práctica.</dd></div>
+          </dl>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="tabbar gut" aria-label="Secciones">
+    <button class="tab" type="button" data-go="inicio"><span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg></span>Inicio</button>
+    <button class="tab" type="button" data-go="exploracion"><span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.6-3 4.4"/><path d="M12 17.6h.01"/></svg></span>Explora</button>
+    <button class="tab" type="button" data-go="aprendizaje"><span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M7 3c0 6 10 6 10 12s-10 6-10 6"/><path d="M17 3c0 6-10 6-10 12s10 6 10 6"/><path d="M8.5 6h7M10 9.5h4M10 14.5h4M8.5 18h7"/></svg></span>Aprende</button>
+    <button class="tab" type="button" data-go="practica"><span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h4a2 2 0 1 1 4 0h4v4a2 2 0 1 1 0 4v4h-4a2 2 0 1 0-4 0H4v-4a2 2 0 1 0 0-4z"/></svg></span>Practica</button>
+    <button class="tab" type="button" data-go="evaluacion"><span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span>Evalúa</button>
+  </nav>
+  <canvas id="confetti" aria-hidden="true"></canvas>
+  <div class="toast" id="toast" role="status"></div>
+</div>
+
+<script>
+(function(){
+'use strict';
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+/* ---------- Contenido ---------- */
+const Q = {
+  exp1:{phase:'exploracion', n:'Pregunta 1 de 3', tf:true, text:'El ADN es una molécula que contiene información hereditaria en los seres vivos.', opts:['Verdadero','Falso'], ok:0,
+    why:'El ADN guarda la información que se hereda de padres a hijos y que dirige el funcionamiento de cada célula.'},
+  exp2:{phase:'exploracion', n:'Pregunta 2 de 3', tf:true, text:'El ADN está formado por una sola cadena de nucleótidos.', opts:['Verdadero','Falso'], ok:1,
+    why:'Son dos cadenas que se enrollan una alrededor de la otra: la famosa doble hélice.'},
+  exp3:{phase:'exploracion', n:'Pregunta 3 de 3', tf:true, text:'En las células eucariotas, la mayor parte del ADN se encuentra en el núcleo.', opts:['Verdadero','Falso'], ok:0,
+    why:'Casi todo el ADN está en el núcleo, organizado en cromosomas. Las mitocondrias guardan una pequeña cantidad propia.'},
+  apr1:{phase:'aprendizaje', n:'6 · Comprueba lo aprendido', text:'Un nucleótido está constituido por:', opts:['Una azúcar desoxirribosa, el grupo fosfato y las bases nitrogenadas','Protones y electrones','Ribosomas y mitocondrias'], ok:0,
+    why:'Cada nucleótido tiene un grupo fosfato, una desoxirribosa (azúcar de 5 carbonos) y una base nitrogenada.',
+    hint:'Piensa en las tres piezas del modelo que tocaste arriba: una tiene fósforo, otra es un azúcar y otra es la “letra” del código.'},
+  pra1:{phase:'practica', n:'Pregunta final', text:'El orden lógico en que se unen las bases nitrogenadas en el ADN es:', opts:['Adenina – Timina y Timina – Uracilo','Adenina – Timina y Citosina – Guanina','Citosina – Uracilo y Citosina – Adenina','Adenina – Guanina y Timina – Citosina'], ok:1,
+    why:'La adenina siempre se une con la timina (A–T) y la citosina con la guanina (C–G). El uracilo no forma parte del ADN.',
+    hint:'En el ADN no hay uracilo (U), y cada base tiene siempre la misma pareja. Recuerda el reto que acabas de hacer.'}
+};
+const PARTS = {
+  fosfato:{t:'Grupo fosfato', d:'Un átomo de fósforo rodeado de oxígenos. Une un nucleótido con el siguiente y, junto con el azúcar, forma el “pasamanos” de cada cadena. Tiene carga negativa.'},
+  azucar:{t:'Desoxirribosa', d:'Un azúcar de cinco carbonos (pentosa). Se llama “desoxi” porque le falta un oxígeno comparada con la ribosa del ARN. Conecta el fosfato con la base.'},
+  base:{t:'Base nitrogenada', d:'Es la “letra” del código genético. Hay cuatro: adenina (A), timina (T), citosina (C) y guanina (G). A y G tienen dos anillos (purinas); C y T, uno (pirimidinas).'}
+};
+const COMP = {A:'T',T:'A',C:'G',G:'C'};
+const BASE_NAME = {A:'Adenina',T:'Timina',C:'Citosina',G:'Guanina'};
+
+/* ---------- Estado ---------- */
+const fresh = () => ({ans:{}, parts:{}, game:{round:0, idx:0, ok:0, bad:0, done:false, strand:null, fill:[]}, sound:true});
+let S = fresh();
+const KEY = 'adn-explore-v1';
+function load(){ try{ const raw = localStorage.getItem(KEY); if(raw){ const d = JSON.parse(raw); S = Object.assign(fresh(), d); S.game = Object.assign(fresh().game, d.game||{}); } }catch(e){} }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+
+/* ---------- Sonido ---------- */
+let ac = null;
+function tone(freqs, type, dur){
+  if(!S.sound) return;
+  try{
+    ac = ac || new (window.AudioContext||window.webkitAudioContext)();
+    let t = ac.currentTime;
+    freqs.forEach(f=>{
+      const o = ac.createOscillator(), g = ac.createGain();
+      o.type = type; o.frequency.value = f;
+      g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(0.18,t+0.02); g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+      o.connect(g).connect(ac.destination); o.start(t); o.stop(t+dur+0.02); t += dur*0.8;
+    });
+  }catch(e){}
+}
+const sfx = { ok:()=>tone([660,880],'triangle',0.14), bad:()=>tone([200,150],'sawtooth',0.16), tap:()=>tone([520],'sine',0.07), win:()=>tone([523,659,784,1047],'triangle',0.14) };
+const ICON_ON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
+const ICON_OFF = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m16 9 5 6M21 9l-5 6"/></svg>';
+function paintSound(){ $$('.sndbtn').forEach(b=>{ b.innerHTML = S.sound?ICON_ON:ICON_OFF; b.setAttribute('aria-pressed', String(S.sound)); }); }
+$$('.sndbtn').forEach(b=>b.addEventListener('click',()=>{ S.sound=!S.sound; save(); paintSound(); toast(S.sound?'Sonidos activados':'Sonidos silenciados'); if(S.sound) sfx.tap(); }));
+
+/* ---------- Toast y confeti ---------- */
+let toastT;
+function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove('show'),1600); }
+const cf = $('#confetti'); let parts=[], cfRun=false;
+function confetti(n=46){
+  if(reduce) return;
+  const r = cf.getBoundingClientRect(), dpr = devicePixelRatio||1;
+  cf.width = r.width*dpr; cf.height = r.height*dpr;
+  const cols = ['--A','--T','--C','--G','--P','--pink'].map(css);
+  n = Math.min(n, 90-parts.length); if(n<=0) return;
+  for(let i=0;i<n;i++) parts.push({x:r.width/2, y:r.height*0.55, vx:(Math.random()-.5)*9, vy:-Math.random()*9-4, s:Math.random()*6+5, c:cols[i%cols.length], a:Math.random()*6, va:(Math.random()-.5)*.3, life:1});
+  if(!cfRun){ cfRun=true; requestAnimationFrame(cfStep); }
+}
+function cfStep(){
+  const ctx = cf.getContext('2d'), dpr = devicePixelRatio||1;
+  ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,cf.width,cf.height);
+  parts.forEach(p=>{ p.vy+=0.28; p.x+=p.vx; p.y+=p.vy; p.a+=p.va; p.life-=0.012;
+    ctx.save(); ctx.globalAlpha=Math.max(p.life,0); ctx.translate(p.x,p.y); ctx.rotate(p.a); ctx.fillStyle=p.c; ctx.fillRect(-p.s/2,-p.s/4,p.s,p.s/2); ctx.restore(); });
+  parts = parts.filter(p=>p.life>0 && p.y < cf.height);
+  if(parts.length) requestAnimationFrame(cfStep); else { cfRun=false; ctx.clearRect(0,0,cf.width,cf.height); }
+}
+function buzz(ms){ try{ navigator.vibrate && navigator.vibrate(ms); }catch(e){} }
+
+/* ---------- Preguntas ---------- */
+/* Formativa: en V/F, un error muestra la respuesta y la explicación.
+   En opción múltiple, el primer error da una pista y el segundo muestra la respuesta.
+   La evaluación cuenta solo el primer intento; luego se puede practicar de nuevo. */
+function qState(id){ return S.ans[id] || {tries:[], solved:false, revealed:false}; }
+function renderQ(card){
+  const id = card.dataset.q, q = Q[id], st = qState(id);
+  const finished = st.solved || st.revealed;
+  card.innerHTML = '';
+  const wrap = document.createElement('div'); wrap.className='q';
+  wrap.innerHTML = `<div class="qnum">${q.n}</div><h3>${q.text}</h3>`;
+  const opts = document.createElement('div'); opts.className = 'opts' + (q.tf?' tf':'');
+  q.opts.forEach((txt,i)=>{
+    const b = document.createElement('button'); b.type='button'; b.className='opt'; b.id=`opt-${id}-${i}`;
+    b.innerHTML = (q.tf?'':`<span class="key">${'ABCD'[i]}</span>`) + `<span>${txt}</span>`;
+    if(st.tries.includes(i)) b.classList.add(i===q.ok?'right':'wrong');
+    else if(st.revealed && i===q.ok) b.classList.add('reveal');
+    if(finished || st.tries.includes(i)) b.disabled = true;
+    b.addEventListener('click',()=>answer(id,i,card,b));
+    opts.appendChild(b);
+  });
+  wrap.appendChild(opts);
+  let fb = '';
+  if(st.solved){
+    fb = `<div class="fb ok" role="status"><div><b>${st.tries.length===1?'¡Correcto!':'¡Bien, lo corregiste!'}</b>${q.why}</div></div>`;
+  } else if(st.revealed){
+    fb = `<div class="fb no" role="status"><div><b>La respuesta correcta es: “${q.opts[q.ok]}”.</b>${q.why}</div></div>`;
+  } else if(st.tries.length){
+    fb = `<div class="fb hint" role="status"><div><b>Casi. Aquí tienes una pista:</b>${q.hint||''} Te queda un intento.</div></div>`;
+  }
+  if(fb) wrap.insertAdjacentHTML('beforeend', fb);
+  if(finished && st.first===false){
+    const rb = document.createElement('button'); rb.type='button'; rb.className='btn ghost retry'; rb.textContent='Practicar esta pregunta de nuevo';
+    rb.addEventListener('click',()=>{ S.ans[id] = {tries:[], solved:false, revealed:false, first:st.first, everDone:true}; save(); renderQ(card); refresh(); });
+    wrap.appendChild(rb);
+  }
+  card.appendChild(wrap);
+}
+function answer(id,i,card,btn){
+  const q = Q[id]; const st = S.ans[id] = qState(id);
+  if(st.solved || st.revealed || st.tries.includes(i)) return;
+  st.tries.push(i);
+  if(st.first===undefined) st.first = (i===q.ok);
+  if(i===q.ok){ st.solved=true; st.everDone=true; sfx.ok(); buzz(30); if(st.tries.length===1) confetti(); }
+  else {
+    sfx.bad(); buzz([40,40,40]);
+    if(q.tf || st.tries.length>=2){ st.revealed=true; st.everDone=true; }
+  }
+  save(); renderQ(card);
+  if(i!==q.ok){ const nb = $('#'+btn.id); nb && nb.classList.add('shake'); }
+  refresh();
+}
+
+/* ---------- Nucleótido ---------- */
+let curPart=null, baseCycle=0;
+function showPart(p){
+  curPart=p; S.parts[p]=true; save(); sfx.tap();
+  const nuc = $('#nuc'); nuc.classList.add('dim');
+  $$('.part',nuc).forEach(g=>g.classList.toggle('on', g.dataset.part===p));
+  $$('.pchip[data-part]').forEach(c=>c.classList.toggle('on', c.dataset.part===p));
+  let extra = '';
+  if(p==='base'){
+    const letters='ATCG'; const L = letters[baseCycle%4]; baseCycle++;
+    $('#nucBaseLetter').textContent = L;
+    $('#nuc rect.shape').setAttribute('fill', `var(--${L})`);
+    $('#nucBaseLetter').setAttribute('fill', L==='T' ? '#3A2800' : '#FFFFFF');
+    extra = `<p style="margin-top:8px"><b>Mostrando: ${BASE_NAME[L]} (${L}).</b> Toca de nuevo la base para ver otra.</p>`;
+  }
+  $('#nucInfo').innerHTML = `<h4>${PARTS[p].t}</h4><p>${PARTS[p].d}</p>${extra}`;
+  paintParts(); refresh();
+}
+function paintParts(){
+  $$('.pchip[data-part]').forEach(c=>{ c.querySelector('.seen').textContent = S.parts[c.dataset.part] ? '✓' : ''; });
+  const n = Object.keys(S.parts).length;
+  if(n===3 && curPart && !S.partsDoneToast){ S.partsDoneToast=true; save(); toast('¡Conoces las tres partes del nucleótido!'); }
+}
+$$('#nuc .part').forEach(g=>{
+  g.addEventListener('click',()=>showPart(g.dataset.part));
+  g.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); showPart(g.dataset.part); } });
+});
+$$('.pchip[data-part]').forEach(c=>c.addEventListener('click',()=>showPart(c.dataset.part)));
+
+/* ---------- Hélice ---------- */
+const SEQ = 'ATGCGTACCGATTAGCCTAG';
+// Colores y tamaños en caché: leerlos en cada cuadro obliga al navegador a recalcular la página y congela equipos lentos.
+let PAL = {};
+function readPal(){ PAL = {A:css('--A'),T:css('--T'),C:css('--C'),G:css('--G'),P:css('--P'),S:css('--S'),sky:css('--sky'),ink:css('--ink')}; }
+const SIZE = new WeakMap();
+const ro = ('ResizeObserver' in window) ? new ResizeObserver(es=>es.forEach(e=>{ SIZE.set(e.target,{W:e.contentRect.width,H:e.contentRect.height}); dirty=true; })) : null;
+function setupCanvas(cv){
+  let sz = SIZE.get(cv);
+  if(!sz || !sz.W){ const r=cv.getBoundingClientRect(); sz={W:r.width,H:r.height}; SIZE.set(cv,sz); }
+  if(!sz.W) return null;
+  const dpr = Math.min(devicePixelRatio||1, 2);
+  const w=Math.round(sz.W*dpr), h=Math.round(sz.H*dpr);
+  if(cv.width!==w||cv.height!==h){ cv.width=w; cv.height=h; }
+  const ctx=cv._ctx || (cv._ctx=cv.getContext('2d')); ctx.setTransform(dpr,0,0,dpr,0,0);
+  return {ctx, W:sz.W, H:sz.H};
+}
+function drawHelix(cv, phase, vertical, onDark){
+  const s = setupCanvas(cv); if(!s) return; const {ctx,W,H}=s;
+  ctx.clearRect(0,0,W,H);
+  const len = vertical?H:W, cross = vertical?W:H;
+  const N = vertical?12:Math.max(10, Math.round(W/34));
+  const m = vertical?26:18, R = Math.min(cross*0.34, vertical?78:52), c = cross/2;
+  const step = (len-2*m)/(N-1), twist = 0.6;
+  const pos = (along, off) => vertical ? [c+off, along] : [along, c+off];
+  const col = PAL;
+  const bb1 = onDark ? '#FFFFFF' : PAL.P, bb2 = onDark ? PAL.sky : PAL.S;
+  // backbone segments with depth
+  const SUB=5, samples=(N-1)*SUB;
+  const drawSegs = front => {
+    ctx.lineCap='round'; ctx.globalAlpha = front?1:0.35;
+    for(let si=0;si<2;si++){
+      const sh = si?Math.PI:0; ctx.strokeStyle = si? bb2 : bb1;
+      for(let k=0;k<samples;k++){
+        const t0=k/SUB, t1=(k+1)/SUB, a0=t0*twist+phase+sh, a1=t1*twist+phase+sh, z=Math.sin((a0+a1)/2);
+        if((z>=0)!==front) continue;
+        const p0=pos(m+t0*step,R*Math.cos(a0)), p1=pos(m+t1*step,R*Math.cos(a1));
+        ctx.lineWidth = 4+2.5*z; ctx.beginPath(); ctx.moveTo(p0[0],p0[1]); ctx.lineTo(p1[0],p1[1]); ctx.stroke();
+      }
+    }
+    ctx.globalAlpha=1;
+  };
+  drawSegs(false);
+  for(let i=0;i<N;i++){
+    const a=i*twist+phase, along=m+i*step;
+    const o1=R*Math.cos(a), o2=-o1, b=SEQ[i%SEQ.length], b2=COMP[b];
+    const z=Math.abs(Math.sin(a));
+    const p1=pos(along,o1*0.9), p2=pos(along,o2*0.9), mid=pos(along,0);
+    ctx.lineWidth = vertical?7:5; ctx.lineCap='round'; ctx.globalAlpha = 0.55+0.45*(1-z*0.4);
+    ctx.strokeStyle=col[b]; ctx.beginPath(); ctx.moveTo(...p1); ctx.lineTo(...mid); ctx.stroke();
+    ctx.strokeStyle=col[b2]; ctx.beginPath(); ctx.moveTo(...mid); ctx.lineTo(...p2); ctx.stroke();
+    ctx.globalAlpha=1;
+    if(vertical && Math.abs(o1)>R*0.45){
+      ctx.font='800 12px "JetBrains Mono", monospace'; ctx.textAlign='center'; ctx.textBaseline='middle';
+      const lp1=pos(along,o1*0.55), lp2=pos(along,o2*0.55);
+      ctx.fillStyle=PAL.ink; ctx.fillText(b,...lp1); ctx.fillText(b2,...lp2);
+    }
+  }
+  drawSegs(true);
+  for(let i=0;i<N;i++){ [0,Math.PI].forEach((sh,si)=>{ const a=i*twist+phase+sh; const z=Math.sin(a); if(z<0) return;
+    const p=pos(m+i*step,R*Math.cos(a)); ctx.fillStyle = si?bb2:bb1; ctx.beginPath(); ctx.arc(...p,3.5+2*z,0,Math.PI*2); ctx.fill(); }); }
+}
+let phaseHero=0, phaseLearn=0.4, spin=!reduce, dragging=false, lastX=0, lastT=performance.now(), lastDraw=0, dirty=true, alive=true, rafId=0;
+const hv=$('#helixHero'), lv=$('#helixLearn');
+const seen = new Map([[hv,true],[lv,false]]);
+const io = ('IntersectionObserver' in window) ? new IntersectionObserver(es=>es.forEach(e=>{ seen.set(e.target, e.isIntersecting); if(e.isIntersecting) dirty=true; }),{root:$('#main')}) : null;
+if(ro){ ro.observe(hv); ro.observe(lv); }
+if(io){ io.observe(hv); io.observe(lv); } else { seen.set(lv,true); }
+function frame(now){
+  if(!alive) return;
+  rafId = requestAnimationFrame(frame);
+  if(document.hidden) { lastT=now; return; }
+  if(now-lastDraw < 33 && !dirty) return;          // máx. ~30 cuadros por segundo
+  const dt=Math.min(100, now-lastT)/1000; lastT=now; lastDraw=now;
+  const heroOn = current==='inicio' && seen.get(hv), learnOn = current==='aprendizaje' && seen.get(lv);
+  if(heroOn && (!reduce || dirty)){ if(!reduce) phaseHero+=dt*0.9; drawHelix(hv,phaseHero,false,true); }
+  if(learnOn && ((spin && !dragging) || dirty || dragging)){ if(spin && !dragging) phaseLearn+=dt*0.8; drawHelix(lv,phaseLearn,true,false); }
+  dirty=false;
+}
+lv.addEventListener('pointerdown',e=>{ dragging=true; lastX=e.clientX; lv.setPointerCapture(e.pointerId); });
+lv.addEventListener('pointermove',e=>{ if(!dragging) return; phaseLearn += (e.clientX-lastX)*0.02; lastX=e.clientX; dirty=true; });
+['pointerup','pointercancel'].forEach(ev=>lv.addEventListener(ev,()=>{ dragging=false; }));
+$('#spinBtn').addEventListener('click',()=>{ spin=!spin; $('#spinBtn').textContent = spin?'Pausar giro':'Reanudar giro'; });
+if(reduce) $('#spinBtn').textContent='Reanudar giro';
+
+/* ---------- Juego de cadena complementaria ---------- */
+const ROUNDS=3, LEN=8;
+function newStrand(){ let s=''; for(let i=0;i<LEN;i++) s+='ATCG'[Math.floor(Math.random()*4)]; return s; }
+function gameInit(){ const g=S.game; if(!g.strand && !g.done){ g.strand=newStrand(); g.idx=0; g.fill=[]; save(); } renderGame(); }
+function renderGame(){
+  const g=S.game, el=$('#strand');
+  const tile = (b,cls='') => `<span class="gt ${b?'b'+b:'empty'} ${cls}">${b||'?'}</span>`;
+  if(g.done){
+    el.innerHTML=''; $('#keys').hidden=true; $('#gRound').textContent='Reto completado';
+    const total=g.ok+g.bad, acc = total?Math.round(g.ok/total*100):0;
+    const d=$('#gDone'); d.hidden=false;
+    d.innerHTML = `<div class="fb ${acc>=80?'ok':'no'}"><div><b>${acc>=80?'¡Excelente trabajo!':'Reto terminado'}</b>Completaste ${ROUNDS} cadenas con ${acc}% de precisión. ${acc>=80?'Dominas la regla A–T y C–G.':'Repasa la sección “Las bases se emparejan” y vuelve a intentarlo.'}</div></div><button class="btn ghost" type="button" id="gAgain" style="margin-top:10px">Jugar otra vez</button>`;
+    $('#gAgain').addEventListener('click',()=>{ S.game={round:0,idx:0,ok:0,bad:0,done:false,strand:null,fill:[]}; save(); $('#keys').hidden=false; $('#gDone').hidden=true; gameInit(); refresh(); });
+  } else {
+    $('#keys').hidden=false; $('#gDone').hidden=true;
+    $('#gRound').textContent=`Cadena ${g.round+1} de ${ROUNDS}`;
+    const top = g.strand.split('').map(b=>tile(b)).join('');
+    const bot = g.strand.split('').map((b,i)=> i<g.idx ? tile(g.fill[i]) : tile('', i===g.idx?'cur':'')).join('');
+    const rungs = g.strand.split('').map((b,i)=>`<i class="${i<g.idx?'done':''}"></i>`).join('');
+    el.innerHTML = `<div class="srow"><span class="end">5′</span>${top}<span class="end">3′</span></div>
+      <div class="rungs"><span></span>${rungs}<span></span></div>
+      <div class="srow" id="botRow"><span class="end">3′</span>${bot}<span class="end">5′</span></div>`;
+  }
+  $('#gOk').textContent = `${g.ok} acierto${g.ok===1?'':'s'}`;
+  $('#gBad').textContent = `${g.bad} error${g.bad===1?'':'es'}`;
+}
+$$('#keys .kbtn').forEach(k=>k.addEventListener('click',()=>{
+  const g=S.game; if(g.done||!g.strand) return;
+  const need = COMP[g.strand[g.idx]], b=k.dataset.b;
+  if(b===need){
+    g.fill[g.idx]=b; g.idx++; g.ok++; sfx.tap();
+    if(g.idx>=LEN){
+      g.round++;
+      if(g.round>=ROUNDS){ g.done=true; g.strand=null; sfx.win(); confetti(70); }
+      else { sfx.ok(); toast(`¡Cadena ${g.round} lista!`); g.strand=newStrand(); g.idx=0; g.fill=[]; }
+    }
+    save(); renderGame();
+  } else {
+    g.bad++; save(); sfx.bad(); buzz([40,40,40]);
+    renderGame();
+    const cur = $('#botRow .cur'); cur && cur.classList.add('shake');
+    toast(`${BASE_NAME[g.strand[g.idx]]} se une con ${BASE_NAME[need].toLowerCase()}`);
+  }
+  refresh();
+}));
+
+/* ---------- Progreso y evaluación ---------- */
+const PART_LABEL = {fosfato:'el grupo fosfato', azucar:'la desoxirribosa', base:'la base nitrogenada'};
+function qStat(id){
+  const st=S.ans[id];
+  if(!st || st.first===undefined) return {answered:false, done:false, first:false, fixed:false};
+  return {answered:true, done:!!(st.everDone||st.solved||st.revealed), first:st.first===true};
+}
+function qMeta(id){
+  const st=S.ans[id], x=qStat(id);
+  if(!x.answered) return 'pendiente';
+  if(x.first) return 'correcto al primer intento';
+  if(!x.done) return 'en curso';
+  return 'falló el primer intento (se mostró la explicación)';
+}
+const ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+function steps(){
+  const missing = ['fosfato','azucar','base'].filter(p=>!S.parts[p]);
+  return [
+    {phase:'exploracion', label:'Fase 1 · Pregunta 1', title:'¿El ADN contiene información hereditaria?', screen:'exploracion', target:'#card-exp1', done:qStat('exp1').done},
+    {phase:'exploracion', label:'Fase 1 · Pregunta 2', title:'¿El ADN tiene una sola cadena?', screen:'exploracion', target:'#card-exp2', done:qStat('exp2').done},
+    {phase:'exploracion', label:'Fase 1 · Pregunta 3', title:'¿Dónde está la mayor parte del ADN?', screen:'exploracion', target:'#card-exp3', done:qStat('exp3').done},
+    {phase:'aprendizaje', label:'Fase 2 · El nucleótido', title: missing.length ? 'Toca ' + listJoin(missing.map(p=>PART_LABEL[p])) : 'Explora el nucleótido', screen:'aprendizaje', target:'#sec-nuc', done:missing.length===0},
+    {phase:'aprendizaje', label:'Fase 2 · Quiz', title:'¿De qué está constituido un nucleótido?', screen:'aprendizaje', target:'#card-apr1', done:qStat('apr1').done},
+    {phase:'practica', label:'Fase 3 · Reto', title: S.game.done ? 'Completa las cadenas' : `Completa las cadenas (${S.game.round} de ${ROUNDS} listas)`, screen:'practica', target:'#sec-game', done:S.game.done},
+    {phase:'practica', label:'Fase 3 · Pregunta final', title:'¿Cómo se unen las bases nitrogenadas?', screen:'practica', target:'#card-pra1', done:qStat('pra1').done}
+  ];
+}
+function listJoin(a){ return a.length<2 ? a.join('') : a.slice(0,-1).join(', ') + ' y ' + a[a.length-1]; }
+function goTo(screen, sel){
+  show(screen, true);
+  setTimeout(()=>{
+    const el = sel && $(sel); if(!el) return;
+    el.scrollIntoView({block:'start', behavior: reduce?'auto':'smooth'});
+    el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash');
+  }, 60);
+}
+const onTarget = e=>{ const t=e.target.closest('[data-target]'); if(t){ e.stopPropagation(); goTo(t.dataset.screen, t.dataset.target); } };
+document.addEventListener('click', onTarget, true);
+function phaseInfo(){
+  const ex=['exp1','exp2','exp3'].map(qStat);
+  const ap=qStat('apr1'), pr=qStat('pra1'), g=S.game;
+  const partsSeen=['fosfato','azucar','base'].filter(p=>S.parts[p]).length;
+  const gTotal=g.ok+g.bad, gAcc=gTotal?g.ok/gTotal:null;
+  const roundsDone = g.done?ROUNDS:g.round;
+  return {
+    exploracion:{prog: ex.filter(x=>x.done).length/3, correct: ex.filter(x=>x.first).length, answered: ex.filter(x=>x.answered).length},
+    aprendizaje:{prog: (partsSeen/3 + (ap.done?1:0))/2, partsSeen},
+    practica:{prog: (roundsDone/ROUNDS + (pr.done?1:0))/2, roundsDone, gAcc}
+  };
+}
+function ringSVG(p, size, stroke, label){
+  const r=(size-stroke)/2, c=2*Math.PI*r, off=c*(1-p);
+  return `<circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="var(--surface-2)" stroke-width="${stroke}"/>
+    <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="${p>=1?'var(--ok)':'var(--accent)'}" stroke-width="${stroke}" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${off}" transform="rotate(-90 ${size/2} ${size/2})" style="transition:stroke-dashoffset .5s"/>
+    <text x="${size/2}" y="${size/2}" text-anchor="middle" dominant-baseline="central">${label}</text>`;
+}
+function overall(P){
+  const qs=['exp1','exp2','exp3','apr1','pra1'].map(qStat).filter(x=>x.answered);
+  const parts=[]; if(qs.length) parts.push(qs.filter(x=>x.first).length/qs.length);
+  if(P.practica.gAcc!==null) parts.push(P.practica.gAcc);
+  if(!parts.length) return null;
+  return Math.round(parts.reduce((a,b)=>a+b,0)/parts.length*100);
+}
+// Desempeño (0–100) por fase: aciertos al primer intento y precisión en el reto.
+function scores(){
+  const pctQ = ids => { const a=ids.map(qStat).filter(x=>x.answered); return a.length ? a.filter(x=>x.first).length/a.length : null; };
+  const g=S.game, gAcc = (g.ok+g.bad) ? g.ok/(g.ok+g.bad) : null;
+  const avg = arr => { const v=arr.filter(x=>x!==null); return v.length ? Math.round(v.reduce((a,b)=>a+b,0)/v.length*100) : null; };
+  return {
+    exploracion: avg([pctQ(['exp1','exp2','exp3'])]),
+    aprendizaje: avg([pctQ(['apr1'])]),
+    practica: avg([pctQ(['pra1']), gAcc]),
+    total: avg([pctQ(['exp1','exp2','exp3','apr1','pra1']), gAcc])
+  };
+}
+function level(p){
+  if(p===null) return null;
+  const nota = Math.round((1+4*p/100)*10)/10;
+  const name = nota>=4.6?'Superior': nota>=4.0?'Alto': nota>=3.0?'Básico':'Bajo';
+  return {name, nota, txt: nota.toFixed(1).replace('.',','), cls: nota>=4.0?'hi': nota>=3.0?'mid':'lo'};
+}
+function scoreRing(p, size, stroke, fs){
+  const r=(size-stroke)/2, c=2*Math.PI*r, L=level(p), frac = p===null?0:p/100;
+  const col = !L ? 'var(--line)' : L.cls==='hi'?'var(--ok)': L.cls==='mid'?'var(--warn)':'var(--bad)';
+  return `<circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="var(--surface-2)" stroke-width="${stroke}"/>
+    <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="${col}" stroke-width="${stroke}" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c*(1-frac)}" transform="rotate(-90 ${size/2} ${size/2})" style="transition:stroke-dashoffset .5s"${frac===0?' opacity="0"':''}/>
+    <text x="${size/2}" y="${size/2}" text-anchor="middle" dominant-baseline="central"${fs?` font-size="${fs}"`:''}>${p===null?'—':p+'%'}</text>`;
+}
+function paintNext(btn, next, finishedTo){
+  if(next){
+    btn.hidden=false;
+    btn.innerHTML = `<span><small>Siguiente paso · ${next.label}</small><b>${next.title}</b></span><span class="go">${ARROW}</span>`;
+    btn.dataset.screen=next.screen; btn.dataset.target=next.target;
+  } else if(finishedTo){
+    btn.hidden=false;
+    btn.innerHTML = `<span><small>Recorrido completo</small><b>Mira tus resultados</b></span><span class="go">${ARROW}</span>`;
+    btn.dataset.screen='evaluacion'; btn.dataset.target='#bigRing';
+  } else btn.hidden=true;
+}
+function refresh(){
+  const P=phaseInfo(), ST=steps(), next=ST.find(x=>!x.done);
+  const SC=scores(), sc=SC.total;
+  $$('[data-ring]').forEach(svg=>{
+    if(svg.dataset.ring==='total'){ const p=SC.total; svg.innerHTML = scoreRing(p,50,5); svg.setAttribute('aria-label', p===null?'Desempeño: sin datos':`Desempeño: ${p}%`); }
+    else { const p=P[svg.dataset.ring].prog; svg.innerHTML = ringSVG(p,50,5, p>=1?'✓':Math.round(p*100)+'%'); svg.setAttribute('aria-label', `Progreso: ${Math.round(p*100)}%`); }
+  });
+  $$('[data-prog]').forEach(el=>{ const ph=el.dataset.prog, list = ph==='total'?ST:ST.filter(x=>x.phase===ph), d=list.filter(x=>x.done).length;
+    el.textContent = `${d} de ${list.length} actividades${d===list.length?' · completa':''}`; });
+  paintNext($('#nextHome'), next, true);
+  paintNext($('#nextEval'), next, false);
+  const doneCount = ST.filter(x=>x.done).length, totalProg = doneCount/ST.length, L=level(sc);
+  $('#bigRing').innerHTML = scoreRing(sc,104,10,24);
+  $('#bigRing').setAttribute('aria-label', sc===null?'Desempeño: sin datos':`Desempeño: ${sc}%`);
+  if(!L){ $('#scoreTitle').textContent='Sin datos aún'; $('#scoreSub').textContent='Responde la primera actividad para ver tu desempeño.'; }
+  else { $('#scoreTitle').textContent=`Desempeño ${L.name}`; $('#scoreSub').innerHTML=`Equivale a <b>${L.txt}</b> en la escala de 1,0 a 5,0${next?', con lo que llevas hasta ahora':''}.`; }
+  const qa=['exp1','exp2','exp3','apr1','pra1'].map(qStat), qAns=qa.filter(x=>x.answered), qOk=qAns.filter(x=>x.first).length, g=S.game, gT=g.ok+g.bad;
+  $('#scoreDetail').innerHTML = `
+    <div class="bd"><span>Progreso: actividades completadas</span><b>${doneCount} de ${ST.length}</b><div class="bar"><i style="width:${totalProg*100}%"></i></div></div>
+    <div class="bd"><span>Preguntas acertadas al primer intento</span><b>${qAns.length?`${qOk} de ${qAns.length}`:'—'}</b><small>${qAns.length?`Has respondido ${qAns.length} de las 5 preguntas.`:'Aún no respondes ninguna pregunta.'}</small></div>
+    <div class="bd"><span>Precisión en el reto de cadenas</span><b>${gT?Math.round(g.ok/gT*100)+'%':'—'}</b><small>${gT?`${g.ok} bases correctas en ${gT} intentos.`:'Aún no juegas el reto.'}</small></div>
+    <div class="bd"><small>Escala de referencia: Superior 4,6–5,0 · Alto 4,0–4,5 · Básico 3,0–3,9 · Bajo 1,0–2,9. Cada colegio puede definir la suya.</small></div>`;
+  const pill=(p)=> p>=1?'<span class="badge ok">Completada</span>': p>0?'<span class="badge warn">En progreso</span>':'<span class="badge">Sin iniciar</span>';
+  const phaseBtn = (ph, scr) => { const n=ST.find(x=>x.phase===ph && !x.done);
+    return n ? `<button class="gobtn" type="button" data-screen="${n.screen}" data-target="${n.target}">${P[ph].prog>0?'Continuar':'Empezar'} ${ARROW}</button>`
+             : `<button class="gobtn soft" type="button" data-screen="${scr}" data-target="">Repasar</button>`; };
+  const pendingOf = ph => { const p = ST.filter(x=>x.phase===ph && !x.done).map(x=>x.title); return p.length ? `<br>Te falta: ${p.join(' · ')}` : ''; };
+  const E=P.exploracion, A=P.aprendizaje, R=P.practica;
+  const dz = ph => { const p=SC[ph], l=level(p); return p===null ? 'Desempeño: sin datos<br>' : `Desempeño: <b>${p}%</b><span class="lvl ${l.cls}">${l.name}</span><br>`; };
+  $('#phaseList').innerHTML = `
+   <div class="phase"><div class="row"><h3>1 · Exploración</h3>${pill(E.prog)}</div>${phaseBtn('exploracion','exploracion')}<div class="bar"><i style="width:${E.prog*100}%"></i></div><div class="meta">${dz('exploracion')}${E.answered?`${E.correct} de ${E.answered} ideas previas acertadas al primer intento`:'Ideas previas sin responder'}${pendingOf('exploracion')}</div></div>
+   <div class="phase"><div class="row"><h3>2 · Aprendizaje</h3>${pill(A.prog)}</div>${phaseBtn('aprendizaje','aprendizaje')}<div class="bar"><i style="width:${A.prog*100}%"></i></div><div class="meta">${dz('aprendizaje')}Partes del nucleótido exploradas: ${A.partsSeen} de 3 · Quiz: ${qMeta('apr1')}${pendingOf('aprendizaje')}</div></div>
+   <div class="phase"><div class="row"><h3>3 · Práctica</h3>${pill(R.prog)}</div>${phaseBtn('practica','practica')}<div class="bar"><i style="width:${R.prog*100}%"></i></div><div class="meta">${dz('practica')}Cadenas completas: ${R.roundsDone} de ${ROUNDS}${R.gAcc!==null?` · Precisión ${Math.round(R.gAcc*100)}%`:''} · Pregunta final: ${qMeta('pra1')}${pendingOf('practica')}</div></div>`;
+  const notes=[];
+  const note=(kind,t,scr,tgt,lbl)=>notes.push(`<li class="${kind}"><span class="mk">${kind==='good'?'✓':'!'}</span><span>${t}</span>${tgt!==undefined?`<button class="gobtn soft" type="button" data-screen="${scr}" data-target="${tgt}">${lbl}</button>`:'<span></span>'}</li>`);
+  const s=id=>qStat(id);
+  if(s('exp1').answered) s('exp1').first ? note('good','Reconoces que el ADN guarda la información hereditaria.') : note('todo','Refuerza la idea de que el ADN contiene la información hereditaria.','aprendizaje','','Repasar');
+  if(s('exp2').answered) s('exp2').first ? note('good','Sabes que el ADN tiene dos cadenas.') : note('todo','Recuerda: el ADN tiene dos cadenas que forman la doble hélice.','aprendizaje','#sec-helice','Ver hélice');
+  if(s('exp3').answered) s('exp3').first ? note('good','Sabes que la mayor parte del ADN está en el núcleo.') : note('todo','Recuerda que la mayor parte del ADN está en el núcleo de la célula.','exploracion','#card-exp3','Practicar');
+  if(A.partsSeen===3) note('good','Exploraste los tres componentes del nucleótido.');
+  if(s('apr1').answered) s('apr1').first ? note('good','Identificas fosfato, desoxirribosa y base nitrogenada.') : note('todo','Repasa los tres componentes del nucleótido.','aprendizaje','#sec-nuc','Repasar');
+  if(R.gAcc!==null && (S.game.done || S.game.ok+S.game.bad>=8)) R.gAcc>=0.8 ? note('good','Aplicas bien la regla de apareamiento A–T y C–G.') : note('todo','Practica más el apareamiento A–T y C–G.','aprendizaje','#sec-pares','Repasar');
+  if(s('pra1').answered) s('pra1').first ? note('good','Sabes que el uracilo no forma parte del ADN.') : note('todo','Recuerda que el uracilo es del ARN, no del ADN.','aprendizaje','#sec-pares','Repasar');
+  $('#notes').innerHTML = notes.length?notes.join(''):'<li class="todo"><span class="mk">·</span><span>Aquí verás tus logros y lo que te conviene repasar a medida que avances.</span><span></span></li>';
+}
+let resetArm=false;
+$('#resetBtn').addEventListener('click',()=>{
+  const b=$('#resetBtn');
+  if(!resetArm){ resetArm=true; b.textContent='Toca otra vez para borrar todo'; setTimeout(()=>{ resetArm=false; b.textContent='Reiniciar mi progreso'; },3500); return; }
+  const snd=S.sound, th=S.theme; S=fresh(); S.sound=snd; if(th) S.theme=th; save(); resetArm=false; b.textContent='Reiniciar mi progreso';
+  $$('[data-q]').forEach(renderQ); curPart=null; $('#nuc').classList.remove('dim'); $$('#nuc .part').forEach(g=>g.classList.remove('on')); $$('.pchip[data-part]').forEach(c=>c.classList.remove('on'));
+  $('#nucInfo').innerHTML='<h4>Toca una parte</h4><p class="muted">Cada nucleótido tiene tres componentes. Descúbrelos todos para completar esta sección.</p>';
+  paintParts(); gameInit(); refresh(); toast('Progreso reiniciado');
+});
+
+/* ---------- Navegación ---------- */
+const SCREENS=['inicio','exploracion','aprendizaje','practica','evaluacion','proyecto'];
+let current='inicio';
+function show(name, push){
+  if(!SCREENS.includes(name)) name='inicio';
+  current=name;
+  $$('section[data-screen]').forEach(s=>s.hidden = s.dataset.screen!==name);
+  $$('.tab').forEach(t=>t.toggleAttribute('aria-current', false));
+  const tab=$(`.tab[data-go="${name}"]`); if(tab) tab.setAttribute('aria-current','page');
+  $('#main').scrollTop=0;
+  if(push){ try{ if(location.hash!=='#'+name) location.hash=name; }catch(e){} }
+  if(name==='evaluacion') refresh();
+  dirty=true;
+}
+const onGo = e=>{ const g=e.target.closest('[data-go]'); if(g){ show(g.dataset.go,true); } };
+const onHash = ()=>show(location.hash.slice(1),false);
+document.addEventListener('click', onGo);
+addEventListener('hashchange', onHash);
+
+/* ---------- Tema claro / oscuro ---------- */
+const SUN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.2M12 19.8V22M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2 12h2.2M19.8 12H22M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6"/></svg>';
+const MOON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>';
+const mq = matchMedia('(prefers-color-scheme: dark)');
+function effTheme(){ const a=document.documentElement.getAttribute('data-theme'); return (a==='dark'||a==='light') ? a : (mq.matches?'dark':'light'); }
+function paintTheme(){ readPal(); dirty=true; const d=effTheme()==='dark'; $$('.thmbtn').forEach(b=>{ b.innerHTML = d?SUN:MOON; b.setAttribute('aria-label', d?'Cambiar a tema claro':'Cambiar a tema oscuro'); }); }
+$$('.thmbtn').forEach(b=>b.addEventListener('click',()=>{
+  const nt = effTheme()==='dark'?'light':'dark';
+  document.documentElement.setAttribute('data-theme', nt); S.theme=nt; save(); paintTheme(); sfx.tap();
+  toast(nt==='dark'?'Tema oscuro':'Tema claro');
+}));
+try{ mq.addEventListener('change', paintTheme); }catch(e){}
+try{ new MutationObserver(paintTheme).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']}); }catch(e){}
+
+/* ---------- Video ---------- */
+// El visor de artefactos no permite incrustar otros sitios; dentro de la app instalable (Capacitor/WebView) sí se incrusta.
+const VID='uifcd0ybfWo';
+// Dentro del visor de Claude la app corre en un marco (iframe) que bloquea videos de otros sitios.
+// Fuera de él (GitHub Pages, APK con Capacitor, servidor propio) el video se incrusta.
+const inFrame = (()=>{ try{ return window.self!==window.top; }catch(e){ return true; } })();
+const canEmbed = !inFrame || !!window.Capacitor || ['localhost','127.0.0.1'].includes(location.hostname) || location.protocol==='file:';
+function renderVideo(){
+  const link = `https://www.youtube.com/watch?v=${VID}`;
+  $('#videoBox').innerHTML = canEmbed
+    ? `<div class="video-embed"><iframe src="https://www.youtube-nocookie.com/embed/${VID}?rel=0&playsinline=1" title="Video: estructura y función del ADN" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+       <p class="vnote">¿No carga? <a href="${link}" target="_blank" rel="noopener">Ábrelo en YouTube</a></p>`
+    : `<a class="video" href="${link}" target="_blank" rel="noopener">
+         <span class="thumb"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg></span>
+         <span><b>Estructura y función del ADN</b><small>Toca para verlo en YouTube</small></span>
+       </a>
+       <p class="vnote">En la versión publicada de la app, el video se reproduce aquí mismo.</p>`;
+}
+
+/* ---------- Inicio ---------- */
+function start(data){
+  try{ window.__adnTeardown && window.__adnTeardown(); }catch(e){}
+  window.__adnTeardown = ()=>{ alive=false; cancelAnimationFrame(rafId); try{ ro&&ro.disconnect(); io&&io.disconnect(); }catch(e){}
+    document.removeEventListener('click', onTarget, true); document.removeEventListener('click', onGo); removeEventListener('hashchange', onHash); };
+  load();
+  if(data && data.S) S=data.S;
+  if(S.theme==='dark'||S.theme==='light') document.documentElement.setAttribute('data-theme', S.theme);
+  const hc=$('#helixLearn').closest('.card'); if(hc) hc.id='sec-helice';
+  paintTheme(); renderVideo(); paintSound(); $$('[data-q]').forEach(renderQ); paintParts(); gameInit(); refresh();
+  readPal();
+  show((location.hash||'').slice(1)||'inicio', false);
+  rafId = requestAnimationFrame(frame);
+}
+window.claude?.hot?.snapshot?.(()=>({S}));
+window.claude?.hot?.ready ? window.claude.hot.ready(start) : start(window.claude?.hot?.data ?? {});
+})();
+</script>
+
+<script>
+if('serviceWorker' in navigator && location.protocol==='https:'){ addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{})); }
+</script>
+</body>
+</html>
